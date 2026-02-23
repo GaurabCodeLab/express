@@ -62,8 +62,8 @@ router.post("/login", async (req, res) => {
     });
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true,
-      sameSite: "none",
+      secure: true, // Only sent over HTTPS
+      sameSite: "none", // Required for cross-site cookies with secure
     });
     res.status(200).json({ message: "login successful", data: user });
   } catch (error) {
@@ -72,7 +72,11 @@ router.post("/login", async (req, res) => {
 });
 
 router.get("/logout", (req, res) => {
-  res.clearCookie("token");
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true, // Only sent over HTTPS
+    sameSite: "none",
+  });
   res.status(200).send("logout successfull");
 });
 
