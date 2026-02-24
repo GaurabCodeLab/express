@@ -25,12 +25,20 @@ const userSchema = new Schema(
         message: "Provide valid email address",
       },
     },
-    imageUrl: {
+    photoUrl: {
       type: String,
+      default:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBvqzyx_zoi6q2c0Gd1XnE7wysD9PGOLe3-A&s",
     },
     password: {
       type: String,
       required: true,
+    },
+    age: {
+      type: Number,
+      required: true,
+      min: 18,
+      max: 99,
     },
     about: {
       type: String,
@@ -44,7 +52,7 @@ const userSchema = new Schema(
       enum: ["male", "female"],
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const User = models.User || model("User", userSchema);
