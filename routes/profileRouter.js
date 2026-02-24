@@ -20,9 +20,17 @@ router.get("/view", userAuth, async (req, res) => {
 
 router.patch("/edit", userAuth, async (req, res) => {
   const user = req.user;
-  const allowedFields = ["lastName", "about", "skills", "gender"];
+  const allowedFields = [
+    "lastName",
+    "about",
+    "skills",
+    "gender",
+    "firstName",
+    "age",
+    "photoUrl",
+  ];
   const isValidFields = Object.keys(req.body).every((value) =>
-    allowedFields.includes(value)
+    allowedFields.includes(value),
   );
   if (!isValidFields) {
     return res.status(400).json({ message: "Invalid field data" });
@@ -35,7 +43,7 @@ router.patch("/edit", userAuth, async (req, res) => {
     const updatedUser = await User.findOneAndUpdate(
       { email: user.email },
       { $set: updates },
-      { new: true }
+      { new: true },
     ).select("-password");
     res
       .status(200)
@@ -62,7 +70,7 @@ router.post("/reset-password", userAuth, async (req, res) => {
     const userDetails = await User.findOne({ email: user.email });
     const isValidPassword = await bcrypt.compare(
       currentPassword,
-      userDetails.password
+      userDetails.password,
     );
     if (!isValidPassword) {
       return res.status(401).send({ message: "Incorrect current password" });
@@ -71,7 +79,7 @@ router.post("/reset-password", userAuth, async (req, res) => {
     await User.findOneAndUpdate(
       { email: userDetails.email },
       { $set: { password: hashedPassword } },
-      { new: true }
+      { new: true },
     );
     res.status(200).json({ message: "password updated successfully" });
   } catch (error) {
