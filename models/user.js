@@ -44,9 +44,6 @@ const userSchema = new Schema(
       type: String,
       default: "This is default about message",
     },
-    skills: {
-      type: [String],
-    },
     gender: {
       type: String,
       required: true,

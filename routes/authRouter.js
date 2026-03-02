@@ -16,19 +16,18 @@ router.post("/signup", async (req, res) => {
     "email",
     "password",
     "about",
-    "skills",
     "gender",
   ];
   const isValidBody = Object.keys(newUserDetails).every((value) =>
     userSchemaFields.includes(value),
   );
   if (!isValidBody) {
-    return res.status(400).send("Invalid request data");
+    return res.status(400).json({ message: "Invalid request data" });
   }
 
   const isValidPasssword = validator.isStrongPassword(newUserDetails.password);
   if (!isValidPasssword) {
-    return res.status(400).send("Provide strong password");
+    return res.status(400).json({ message: "Provide strong password" });
   }
 
   try {
@@ -37,9 +36,11 @@ router.post("/signup", async (req, res) => {
       ...newUserDetails,
       password: hashedPassword,
     });
-    res.status(201).json({ message: "success", user });
+    res.status(201).json({ message: "user created successfully", user });
   } catch (error) {
-    res.status(500).send("Error in creating user : " + error);
+    res
+      .status(500)
+      .json({ message: "Error in creating user : " + error.message });
   }
 });
 
