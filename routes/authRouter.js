@@ -16,6 +16,7 @@ router.post("/signup", async (req, res) => {
     "email",
     "password",
     "about",
+    "age",
     "gender",
   ];
   const isValidBody = Object.keys(newUserDetails).every((value) =>
