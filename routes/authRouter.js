@@ -79,7 +79,7 @@ router.get("/logout", (req, res) => {
     secure: true, // Only sent over HTTPS
     sameSite: "none",
   });
-  res.status(200).send("logout successfull");
+  res.status(200).json({ message: "logout successfull" });
 });
 
 module.exports = { authRouter: router };
